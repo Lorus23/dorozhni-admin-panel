@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{route('booking')}}">
+                <a href="{{route('bookings')}}">
                     <i class="fa fa-hotel"></i> <span>Бронирование</span>
                 </a>
             </li>

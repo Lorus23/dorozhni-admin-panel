@@ -1,90 +1,93 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">@lang('quickadmin.rooms.title')</h3>
-    <form action="{{route('room.update',['room_id'=>$room->id])}}" method="post">
-        {{csrf_field()}}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                @lang('quickadmin.qa_update')
-            </div>
+    <h3 class="page-title">@lang('quickadmin.bookings.title')</h3>
+    
+    {!! Form::model($booking, ['method' => 'PUT', 'route' => ['admin.bookings.update', $booking->id]]) !!}
 
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-12 form-group">
-                        <label for="" class="control-label">@lang('quickadmin.rooms.fields.room-number')
-                            <input type="text" name="room_number" class="form-control"
-                                   value="{{$room->room_number}}">
-                        </label>
-                        @if($errors->has('building_name'))
-                            <p class="help-block">
-                                {{ $errors->first('building_name') }}
-                            </p>
-                        @endif
-
-                        <p class="help-block"></p>
-                        @if($errors->has('room_number'))
-                            <p class="help-block">
-                                {{ $errors->first('room_number') }}
-                            </p>
-                        @endif
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 form-group">
-                        <p><label class="control-label">@lang('quickadmin.rooms.fields.building_id')
-                                <select class="form-control select2" name="building_id" style="width:200px;">
-                                    @foreach($buildings as $building)
-                                        <option value="{{$building->id}}">{{$building->building_name}}</option>
-                                    @endforeach
-                                </select>
-                            </label>
-                        </p>
-
-                        <p><label class="control-label">@lang('quickadmin.rooms.fields.category_id')
-                                <select class="form-control select2" name="category_id" style="width:200px;">
-                                    @foreach($categories as $category)
-                                        <option value="{{$category->id}}">{{$category->category_name}}</option>
-                                    @endforeach
-                                </select>
-                            </label>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12 form-group">
-                        <label for="" class="control-label">@lang('quickadmin.rooms.fields.floor')
-                            <input type="text" name="floor" class="form-control"
-                                   value="{{$room->floor}}">
-                        </label>
-                        @if($errors->has('building_name'))
-                            <p class="help-block">
-                                {{ $errors->first('building_name') }}
-                            </p>
-                        @endif
-                        <p class="help-block"></p>
-                        @if($errors->has('floor'))
-                            <p class="help-block">
-                                {{ $errors->first('floor') }}
-                            </p>
-                        @endif
-                        <label for="" class="control-label">@lang('quickadmin.rooms.fields.description')
-                            <textarea name="description" class="form-control">{{$room->description}}</textarea>
-                        </label>
-                        <p class="help-block"></p>
-                        @if($errors->has('description'))
-                            <p class="help-block">
-                                {{ $errors->first('description') }}
-                            </p>
-                        @endif
-
-                    </div>
-                </div>
-
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @lang('quickadmin.qa_edit')
         </div>
 
-        {!! Form::submit(trans('quickadmin.qa_save'), ['class' => 'btn btn-danger']) !!}
-        {!! Form::close() !!}
-    </form>
-@endsection
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('customer_id', trans('quickadmin.bookings.fields.customer').'', ['class' => 'control-label']) !!}
+                    {!! Form::select('customer_id', $customers, old('customer_id'), ['class' => 'form-control select2']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('customer_id'))
+                        <p class="help-block">
+                            {{ $errors->first('customer_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('room_id', trans('quickadmin.bookings.fields.room').'', ['class' => 'control-label']) !!}
+                    {!! Form::select('room_id', $rooms, old('room_id'), ['class' => 'form-control select2']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('room_id'))
+                        <p class="help-block">
+                            {{ $errors->first('room_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('time_from', trans('quickadmin.bookings.fields.time-from').'*', ['class' => 'control-label']) !!}
+                    {!! Form::text('time_from', old('time_from'), ['class' => 'form-control datetimepicker', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('time_from'))
+                        <p class="help-block">
+                            {{ $errors->first('time_from') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('time_to', trans('quickadmin.bookings.fields.time-to').'*', ['class' => 'control-label']) !!}
+                    {!! Form::text('time_to', old('time_to'), ['class' => 'form-control datetimepicker', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('time_to'))
+                        <p class="help-block">
+                            {{ $errors->first('time_to') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('additional_information', trans('quickadmin.bookings.fields.additional-information').'*', ['class' => 'control-label']) !!}
+                    {!! Form::textarea('additional_information', old('additional_information'), ['class' => 'form-control ', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('additional_information'))
+                        <p class="help-block">
+                            {{ $errors->first('additional_information') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    {!! Form::submit(trans('quickadmin.qa_update'), ['class' => 'btn btn-danger']) !!}
+    {!! Form::close() !!}
+@stop
+
+@section('javascript')
+    @parent
+    <script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $('.datetimepicker').datetimepicker({
+            format: "YYYY-MM-DD HH:mm"
+        });
+    </script>
+@stop

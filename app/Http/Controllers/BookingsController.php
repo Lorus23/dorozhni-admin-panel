@@ -37,9 +37,9 @@ class BookingsController extends Controller
         return redirect()->route('bookings');
     }
 
-    public function delete($building_id, Request $request)
+    public function delete($booking_id, Request $request)
     {
-        Building::destroy($building_id);
+        Building::destroy($booking_id);
         return redirect()->route('bookings');
     }
 
@@ -62,5 +62,17 @@ class BookingsController extends Controller
         ]);
         Room::find($booking_id)->update($request->all());
         return redirect()->route('bookings');
+    }
+
+    public function show($booking_id)
+    {
+        $customer = Customer::all();
+        $data['customers'] = $customer;
+
+        $rooms = Room::all();
+        $data['rooms'] = $rooms;
+
+        $data['booking'] = Booking::find($booking_id);
+        return view('buildings.show', $data);
     }
 }

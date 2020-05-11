@@ -49,6 +49,7 @@ Route::group(['middleware'=>['auth']], function () {
 
     Route::group(['prefix' => 'bookings'], function () {
         Route::get('/', 'BookingsController@index')->name('bookings');
+        Route::get('/show/{booking_id}', 'BookingsController@show')->name('booking.show');
         Route::get('/create', 'BookingsController@create')->name('booking.create');
         Route::post('/store', 'BookingsController@store')->name('booking.store');
         Route::get('/delete/{booking_id}', 'BookingsController@delete')->name('booking.delete');
