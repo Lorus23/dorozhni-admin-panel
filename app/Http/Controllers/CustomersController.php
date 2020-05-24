@@ -22,15 +22,11 @@ class CustomersController extends Controller
 
     public function store(Request $request)
     {
-        if (! Gate::allows('customer_create')) {
-            return abort(401);
-        }
         $this->validate($request, [
             'first_name' => 'required',
             'last_name' => 'required',
             'transport' => 'required',
             'phone' => 'required',
-            'email' => 'required',
         ]);
         Customer::storeCustomer($request->first_name, $request->last_name, $request->fathers_name, $request->transport, $request->phone, $request->email);
         return redirect()->route('customers');

@@ -30,10 +30,14 @@ class BookingsController extends Controller
 
     public function store(Request $request)
     {
+
+        echo '<pre>'; print_r($_POST);exit();
         $this->validate($request, [
-//            'room_number' => 'required',
+            'customer_id' => 'required',
         ]);
-        Room::storeRoom($request->room_number, $request->building_id, $request->category_id, $request->floor, $request->description);
+
+
+        Booking::storeBooking($request->room_number, $request->building_id, $request->category_id, $request->floor, $request->description);
         return redirect()->route('bookings');
     }
 
@@ -60,7 +64,7 @@ class BookingsController extends Controller
         $this->validate($request, [
 //            'room_number' => 'required',
         ]);
-        Room::find($booking_id)->update($request->all());
+        Booking::find($booking_id)->update($request->all());
         return redirect()->route('bookings');
     }
 
